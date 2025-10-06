@@ -1,0 +1,208 @@
+{
+	"name": "MiX16ShowCue",
+	"type": "OSC",
+	"path": "Software",
+	
+	"version":"1.1",
+  "description":"Allow you to control MiX16 ShowCue with chataigne",
+  "url":"https://github.com/ziginfo/MiX16ShowCue-Chataigne-Module",
+  "downloadURL":"https://github.com/ziginfo/MiX16ShowCue-Chataigne-Module/archive/refs/heads/main.zip",
+	
+	"hasInput": true,
+	"hasOutput": true, 
+
+	"hideDefaultCommands": true,
+	"hideDefaultParameters": [ ],
+	
+	"defaults": {
+	
+		"OSC Input": {
+			"localPort" : 7201 },
+			
+		"OSC Outputs": {
+			"OSC Output": {
+				"local" : false,
+				"remoteHost" : "192.168.50.90",
+				"remotePort"  : 7200,
+				"listenToFeedback":false } }
+	},
+	
+	"parameters": {
+			"autoAdd":{"type":"Boolean"}
+	},
+	
+	"scripts": ["mix16sc.js"],
+	
+	"values": {
+	},
+	
+	"commands": {
+	
+	
+	
+		
+	"Go" : {
+			"menu" : "Main",
+			"callback" : "go"
+		},	
+		
+	"Set Prev" : {
+			"menu" : "Main",
+			"callback" : "back"
+		},
+		
+	"Set Next" : {
+			"menu" : "Main",
+			"callback" : "next"
+		},
+		
+	"Pause Playlist" : {
+			"menu" : "Main",
+			"callback" : "pause_play"
+		},			
+		
+	"Stop All" : {
+			"menu" : "Main",
+			"callback" : "stop_all"
+		},		
+				
+	"Set Next Cue" : {
+			"menu" : "Main",
+			"callback" : "set_next",
+			"parameters" : {
+			
+			" GoTo Cue": {
+					"type": "Integer",
+					"default": 1, 
+					"min":0,
+					"max":100,
+					"useForMapping": true }	
+		}  },
+		
+		"Play Next Cue" : {
+			"menu" : "Main",
+			"callback" : "play_cue",
+			"parameters" : {
+			
+			" GoTo Cue": {
+					"type": "Integer",
+					"default": 1, 
+					"min":0,
+					"max":100,
+					"useForMapping": true }	
+		}  },
+		
+		"Set & Play Cue" : {
+			"menu" : "Main",
+			"callback" : "set_play",
+			"parameters" : {
+			
+			" GoTo Cue": {
+					"type": "Integer",
+					"default": 1, 
+					"min":0,
+					"max":100,
+					"useForMapping": true }	
+		}  },	
+				
+		"Reset Playlist" : {
+			"menu" : "Main",
+			"callback" : "reset"
+		},
+		
+		"Set Cue Volume" : {
+			"menu" : "Volume",
+			"callback" : "cueVol",
+			"parameters" : {
+			
+				"Cue": {
+					"type": "Integer",
+					"default": 1, 
+					"min":0,
+					"max":100,
+					"useForMapping": true },
+					
+				"Volume": {
+					"type": "Float",
+					"default": 100, 
+					"min":0,
+					"max":100,
+					"useForMapping": true } 
+			}  },	
+	
+		"All Volumes Off" : {
+			"menu" : "Volume",
+			"callback" : "allVol_out"
+		},
+		
+		"All Volumes Full" : {
+			"menu" : "Volume",
+			"callback" : "allVol_full"
+		},	
+		
+		"Master Volumes @" : {
+			"menu" : "Volume",
+			"callback" : "masterVol",
+			"parameters" : {
+				
+				"Volume": {
+					"type": "Float",
+					"default": 100, 
+					"min":0,
+					"max":100,
+					"useForMapping": true } 
+			}  },
+					
+		"Mic On" : {
+			"menu" : "Actions",
+			"callback" : "mic_on"
+		},			
+		
+		"Mute LiveIn" : {
+			"menu" : "Actions",
+			"callback" : "mute_liveIn"
+		},				
+		
+		"Start Camera" : {
+			"menu" : "Actions",
+			"callback" : "camera_start"
+		},		
+		
+		"Freeze Camera" : {
+			"menu" : "Actions",
+			"callback" : "camera_freeze"
+		},	
+				
+		"Go LightScene(name)" : {
+			"menu" : "Actions",
+			"callback" : "light_sceneName",
+			"parameters" : {
+				"Name": {
+					"type": "String" } 
+		}  },
+		
+		"Go LightScene(no)" : {
+			"menu" : "Actions",
+			"callback" : "light_sceneNo",
+			"parameters" : {
+				"N°": {
+					"type": "String",
+					"default": 0, 
+					"min":0,
+					"max":100,
+					"useForMapping": true } 
+		}  },
+			
+		"Basic Request" : {
+			"menu" : "OSC Request",
+			"callback" : "basicinfo"
+		},			
+		
+		"Full Request" : {
+			"menu" : "OSC Request",
+			"callback" : "fullinfo"
+		}
+
+	
+	}
+}
