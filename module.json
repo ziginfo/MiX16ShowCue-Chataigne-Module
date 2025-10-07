@@ -1,5 +1,5 @@
 {
-	"name": "MiX16ShowCue",
+	"name": "MiX16 ShowCue",
 	"type": "OSC",
 	"path": "Software",
 	
@@ -7,12 +7,24 @@
   "description":"Allow you to control MiX16 ShowCue with chataigne",
   "url":"https://github.com/ziginfo/MiX16ShowCue-Chataigne-Module",
   "downloadURL":"https://github.com/ziginfo/MiX16ShowCue-Chataigne-Module/archive/refs/heads/main.zip",
+  
 	
 	"hasInput": true,
 	"hasOutput": true, 
 
-	"hideDefaultCommands": true,
-	"hideDefaultParameters": [ ],
+	"hideDefaultCommands": false,
+	"hideDefaultParameters": [
+		"colorSendMode",
+		"autoRange",
+		"autoFeedback",
+		"pass_through",
+		"input",
+		"outputs",
+		"useHierarchy",
+		"colorSendMode",
+		"booleanSendMode",
+		"listenToFeedback",
+		"autoAdd" ],
 	
 	"defaults": {
 	
@@ -28,12 +40,114 @@
 	},
 	
 	"parameters": {
-			"autoAdd":{"type":"Boolean"}
+	
+			"ShowCue Version": {
+				"type":"String",
+				"readOnly": true ,
+				"default":"ShowCue Version"	},
+			"Session Name": {
+				"type":"String",
+				"readOnly" : true , 
+				"default":"Session Name",
+				"description":"Shows the Session  Name"  },
+			"Count of Cues": {
+				"type":"Integer",
+				"readOnly": true,
+				"description":"Number of Cues" },
+			"Sync": {
+				"type":"Trigger",
+				"description":"Sync Infos" }
+				
+			
 	},
 	
 	"scripts": ["mix16sc.js"],
 	
 	"values": {
+			"Playing Time": {
+				"type":"String",
+				"readOnly": true },
+			"Playing Cue No": {
+				"type":"Integer",
+				"readOnly": true,
+				"description":"Shows the Active Cue Number",
+				"default":"Active Cue No"  },
+			"Playing Cue": {
+				"type":"String",
+				"description":"Shows the Active Cue Name",
+				"default":"Active Cue"  },
+			"Next Cue": {
+				"type":"String",
+				"description":"Shows the Next Cue Name",
+				"default":"Next Cue"  },
+			"Next Cue No": {
+				"type":"String",
+				"description":"Shows the Next Cue Number",
+				"default":"Next Cue No"  },
+			"GO": {
+				"type":"Trigger",
+				"description":"Go Next Cue" },
+			"Stop All": {
+				"type":"Trigger",
+				"description":"Stopp All Playing Cues" },
+				
+			"Cue Names": {
+				"type":"Container",
+				"collapsed": true,
+			"Advice": {
+				"type":"String",
+				"default":"If no Cues showing, please Sync the Cue Name List.",
+				"readOnly": true },
+			"Sync Cue Names": {
+				"type":"Trigger",
+				"description":"Syncing Cue Names",
+				"default": false },
+			"Count of Cues": {
+				"type":"Integer",
+				"description":"Count of Cues",
+				"default": 0 },
+			"Test": {
+				"type":"String",
+				"default":"Test"},	
+				 },
+				
+			
+			"Cue Infos": {
+				"type":"Container",
+				"collapsed": true ,
+			"  ": {
+				"type":"String",
+				"description":"Set the Cue N° and hit Enter !" ,
+				"default":"Set the Cue N° and hit Enter !" ,
+				"readOnly": true  },
+			"Cue Number": {
+				"type":"String",
+				"description":"Set the Cue Number",
+				"default":"Set the Cue Number" } ,
+			"Cue Name": {
+				"type":"String",
+				"description":"Shows the Selected Cue Name",
+				"default":"Cue Name" },
+			"Cue Status": {
+				"type":"String",
+				"description":"Is Playing or Stopped",
+				"readOnly" : true },
+			"Cue Volume": {
+				"type":"Float",
+				"description":"Cue Volume",
+				"readOnly" : true },
+			"Notes": {
+				"type":"String",
+				"multiline" : true,
+				"readOnly" : true ,
+				"description":"Shows the Notes of the Selected Cue",
+				"default":"Shows the Notes of the Selected Cue",
+				"readOnly": true },
+			"Cue Color": {
+				"type":"Color",
+				"description":"Shows the Cue Color"  ,
+				"readOnly" : true } 				
+				}
 	},
 	
 	"commands": {
@@ -42,32 +156,32 @@
 	
 		
 	"Go" : {
-			"menu" : "Main",
+			"menu" : "Main Control",
 			"callback" : "go"
 		},	
 		
 	"Set Prev" : {
-			"menu" : "Main",
+			"menu" : "Main Control",
 			"callback" : "back"
 		},
 		
 	"Set Next" : {
-			"menu" : "Main",
+			"menu" : "Main Control",
 			"callback" : "next"
 		},
 		
 	"Pause Playlist" : {
-			"menu" : "Main",
+			"menu" : "Main Control",
 			"callback" : "pause_play"
 		},			
 		
 	"Stop All" : {
-			"menu" : "Main",
+			"menu" : "Main Control",
 			"callback" : "stop_all"
 		},		
 				
 	"Set Next Cue" : {
-			"menu" : "Main",
+			"menu" : "Main Control",
 			"callback" : "set_next",
 			"parameters" : {
 			
@@ -80,7 +194,7 @@
 		}  },
 		
 		"Play Next Cue" : {
-			"menu" : "Main",
+			"menu" : "Main Control",
 			"callback" : "play_cue",
 			"parameters" : {
 			
@@ -93,7 +207,7 @@
 		}  },
 		
 		"Set & Play Cue" : {
-			"menu" : "Main",
+			"menu" : "Main Control",
 			"callback" : "set_play",
 			"parameters" : {
 			
@@ -106,7 +220,7 @@
 		}  },	
 				
 		"Reset Playlist" : {
-			"menu" : "Main",
+			"menu" : "Main Control",
 			"callback" : "reset"
 		},
 		
@@ -130,17 +244,8 @@
 					"useForMapping": true } 
 			}  },	
 	
-		"All Volumes Off" : {
-			"menu" : "Volume",
-			"callback" : "allVol_out"
-		},
 		
-		"All Volumes Full" : {
-			"menu" : "Volume",
-			"callback" : "allVol_full"
-		},	
-		
-		"Master Volumes @" : {
+		"Set Master Volumes" : {
 			"menu" : "Volume",
 			"callback" : "masterVol",
 			"parameters" : {
@@ -153,44 +258,18 @@
 					"useForMapping": true } 
 			}  },
 					
-		"Mic On" : {
-			"menu" : "Actions",
-			"callback" : "mic_on"
-		},			
-		
-		"Mute LiveIn" : {
-			"menu" : "Actions",
-			"callback" : "mute_liveIn"
-		},				
-		
-		"Start Camera" : {
-			"menu" : "Actions",
-			"callback" : "camera_start"
-		},		
-		
-		"Freeze Camera" : {
-			"menu" : "Actions",
-			"callback" : "camera_freeze"
-		},	
 				
-		"Go LightScene(name)" : {
-			"menu" : "Actions",
-			"callback" : "light_sceneName",
-			"parameters" : {
-				"Name": {
-					"type": "String" } 
-		}  },
 		
-		"Go LightScene(no)" : {
+		"Set Lighting Master" : {
 			"menu" : "Actions",
-			"callback" : "light_sceneNo",
+			"callback" : "light_master",
 			"parameters" : {
-				"N°": {
-					"type": "String",
-					"default": 0, 
+				"Value": {
+					"type": "Float",
+					"default": 100, 
 					"min":0,
 					"max":100,
-					"useForMapping": true } 
+					"useForMapping": true }
 		}  },
 			
 		"Basic Request" : {
