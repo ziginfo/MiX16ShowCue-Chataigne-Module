@@ -108,7 +108,7 @@
 				"default": 0 },
 			"Test": {
 				"type":"String",
-				"default":"Test"},	
+				"default":"Test"}	
 				 },
 				
 			
@@ -141,8 +141,7 @@
 				"multiline" : true,
 				"readOnly" : true ,
 				"description":"Shows the Notes of the Selected Cue",
-				"default":"Shows the Notes of the Selected Cue",
-				"readOnly": true },
+				"default":"Shows the Notes of the Selected Cue"},
 			"Cue Color": {
 				"type":"Color",
 				"description":"Shows the Cue Color"  ,
