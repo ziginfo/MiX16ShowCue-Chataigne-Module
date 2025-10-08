@@ -9,6 +9,7 @@ Make sure that Chataigne and ShowCue are on the same Network; if they are on the
 
 ---
 Please contact me if you have any suggestions or requests and any help is always welcome !    
-Have Fun   
+Have Fun
+
 To learn more about Chataigne, please visit : http://benjamin.kuperberg.fr/chataigne/    
 And Ben's Youtube channel where you can find tutorials : https://youtu.be/RSBU9MwJNLY    
