@@ -3,7 +3,7 @@
 	"type": "OSC",
 	"path": "Software",
 	
-	"version":"1.1",
+	"version":"1.3",
   "description":"Allow you to control MiX16 ShowCue with chataigne",
   "url":"https://github.com/ziginfo/MiX16ShowCue-Chataigne-Module",
   "downloadURL":"https://github.com/ziginfo/MiX16ShowCue-Chataigne-Module/archive/refs/heads/main.zip",
@@ -34,7 +34,7 @@
 		"OSC Outputs": {
 			"OSC Output": {
 				"local" : false,
-				"remoteHost" : "192.168.50.90",
+				"remoteHost" : " ",
 				"remotePort"  : 7200,
 				"listenToFeedback":false } }
 	},
@@ -90,27 +90,7 @@
 			"Stop All": {
 				"type":"Trigger",
 				"description":"Stopp All Playing Cues" },
-				
-			"Cue Names": {
-				"type":"Container",
-				"collapsed": true,
-			"Advice": {
-				"type":"String",
-				"default":"If no Cues showing, please Sync the Cue Name List.",
-				"readOnly": true },
-			"Sync Cue Names": {
-				"type":"Trigger",
-				"description":"Syncing Cue Names",
-				"default": false },
-			"Count of Cues": {
-				"type":"Integer",
-				"description":"Count of Cues",
-				"default": 0 },
-			"Test": {
-				"type":"String",
-				"default":"Test"}	
-				 },
-				
+			
 			
 			"Cue Infos": {
 				"type":"Container",
@@ -146,7 +126,53 @@
 				"type":"Color",
 				"description":"Shows the Cue Color"  ,
 				"readOnly" : true } 				
-				}
+				},
+					
+			
+			"Cue Names": {
+				"type":"Container",
+				"collapsed": true,
+			"Advice": {
+				"type":"String",
+				"default":"Click Sync or Reset",
+				"readOnly": true },
+			"Sync Cue Names": {
+				"type":"Trigger",
+				"description":"Syncing Cue Names",
+				"default": false },
+			"Count of Cues": {
+				"type":"Integer",
+				"description":"Count of Cues",
+				"default": 0 },
+			"Reset": {
+				"type":"Trigger",
+				"description":"Reset Cue Names",
+				"default": false }
+				 },
+				 
+			"Sidebar Cues": {
+				"type":"Container",
+				"collapsed": true,
+			"Advice": {
+				"type":"String",
+				"default":"Click Sync or Reset",
+				"readOnly": true },
+			"Sync SB Cue Names": {
+				"type":"Trigger",
+				"description":"Syncing SB Cue Names",
+				"default": false },
+			"Count of SB Cues": {
+				"type":"Integer",
+				"description":"Count of Cues",
+				"default": 0 },
+			"Reset SB": {
+				"type":"Trigger",
+				"description":"Reset Sidebar Names",
+				"default": false }
+				 }
+				
+			
+			
 	},
 	
 	"commands": {
@@ -217,11 +243,67 @@
 					"max":100,
 					"useForMapping": true }	
 		}  },	
-				
-		"Reset Playlist" : {
-			"menu" : "Main Control",
-			"callback" : "reset"
-		},
+		
+		"Play Cue" : {
+			"menu" : "Cue Control",
+			"callback" : "play_cue",
+			"parameters" : {
+			
+			" Select Cue": {
+					"type": "Integer",
+					"default": 1, 
+					"min":0,
+					"max":100,
+					"useForMapping": true }	
+		}  },
+		
+		"Pause Cue" : {
+			"menu" : "Cue Control",
+			"callback" : "pause_cue",
+			"parameters" : {
+			
+			" Select Cue": {
+					"type": "Integer",
+					"default": 1, 
+					"min":0,
+					"max":100,
+					"useForMapping": true }	
+		}  },	
+		
+		"Stop Cue" : {
+			"menu" : "Cue Control",
+			"callback" : "stop_cue",
+			"parameters" : {
+			
+			" Select Cue": {
+					"type": "Integer",
+					"default": 1, 
+					"min":0,
+					"max":100,
+					"useForMapping": true }	
+		}  },	
+		
+		"Play SidebarCue" : {
+			"menu" : "Cue Control",
+			"callback" : "play_SBcue",
+			"parameters" : {
+			
+			" Select Cue": {
+					"type": "String",
+					"default": "set Cue Name", 
+					"useForMapping": true }	
+		}  },	
+		
+		"Stop SidebarCue" : {
+			"menu" : "Cue Control",
+			"callback" : "stop_SBcue",
+			"parameters" : {
+			
+			" Select Cue": {
+					"type": "String",
+					"default": "set Cue Name", 
+					"useForMapping": true }	
+		}  },
 		
 		"Set Cue Volume" : {
 			"menu" : "Volume",
@@ -244,7 +326,7 @@
 			}  },	
 	
 		
-		"Set Master Volumes" : {
+		"Set Master Volume" : {
 			"menu" : "Volume",
 			"callback" : "masterVol",
 			"parameters" : {

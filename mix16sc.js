@@ -5,6 +5,8 @@ var cue_names=[];
 var cue_ids=[];
 var cue_numbs=[];
 var notes =[];
+var maxid =0;
+var cueNumb=0;
 
 //====================================================================
 //		INITIAL FUNCTIONS 
@@ -34,9 +36,21 @@ function moduleParameterChanged(param) {
 
 function moduleValueChanged(value) { 
 
-	if (value.name == "syncCueNames"){
+	if (value.name == "syncCueNames"|| value.name == "syncSBCueNames"){
 	local.send ("/mix16showcue/info/full") ;}
-
+	
+	if (value.name == "reset"){
+	local.values.cueNames.countOfCues.set(0) ;
+	for (n=1 ; n<=cueNumb ; n++) {
+//	local.values.cueNames.getChild("cue"+n).set(""); 
+	local.values.cueNames.removeParameter("Cue "+n) ;	}  }
+	
+	if (value.name == "resetSB"){
+	local.values.sidebarCues.countOfSBCues.set(0) ;
+	for (n=1 ; n<=sbNumb ; n++) {
+//	local.values.sidebarCues.getChild("SBcue"+n).set(""); 
+	local.values.sidebarCues.removeParameter("SBCue "+n) ;	}  }
+	
 	if (value.name == "go"){
 	local.send ("/mix16showcue/playnext") ;
 	}
@@ -52,9 +66,13 @@ function moduleValueChanged(value) {
 	
 	if (value.name == "activeCueList" || value.name == "syncCueNames" || value.name == "countOfCues"){
 	cuecount = local.values.cueNames.countOfCues.get()  ;
-//	local.values.cueNames.test.set(value.val) ;
 	for (var n = 1; n <= cuecount; n++) {
 			local.values.cueNames.addStringParameter("Cue "+n, "", "");  } }
+			
+	if (value.name == "countOfSBCues"){
+	sbcount = local.values.sidebarCues.countOfSBCues.get()  ;
+	for (var n = 1; n <= sbcount; n++) {
+			local.values.sidebarCues.addStringParameter("SBCue "+n, "", "");  } }
 	
 }
 //============================================================
@@ -63,58 +81,67 @@ function moduleValueChanged(value) {
 
 function oscEvent(address, args) { 
 
+//Playing and Next Cue Infos >>>>>>>>>>>>>>>>>>>>
 		if (address == "/mix16showcue/playingcue/number" ) {
-		local.values.playingCueNo.set(args[0]);
-		}
+			local.values.playingCueNo.set(args[0]); }
 		
 		if (address == "/mix16showcue/playingcue/name" ) {
-		local.values.playingCue.set(args[0]);
-		}
+			local.values.playingCue.set(args[0]); }
 		
 		if (address == "/mix16showcue/playingcue/time" ) {
-		local.values.playingTime.set(args[0]);
-		}
+			local.values.playingTime.set(args[0]); }
 		
 		if (address == "/mix16showcue/nextcue/name" ) {
-		local.values.nextCue.set(args[0]);
-		}
+			local.values.nextCue.set(args[0]); 	}
 		
 		if (address == "/mix16showcue/go/title" ) {
-		local.values.nextCueNo.set(args[0]);
-		}
+			local.values.nextCueNo.set(args[0]); }
 		
 		if (address == "/mix16showcue/app/name" ) {
-		local.parameters.showCueVersion.set(args[0]);
-		}
+			local.parameters.showCueVersion.set(args[0]); }
 		
 		if (address == "/mix16showcue/project/name" ) {
-		local.parameters.sessionName.set(args[0]);
-		}
+			local.parameters.sessionName.set(args[0]); }
 		
-		
-		if (address == '/mix16showcue/cue') {            
-          		            	
-           	cue_ids.push(args[0]);             	
-  /*        		cue_numbs.push(args[1]);                       	
-           		cue_names.push(args[2]);
-           		cue_notes.push(args[5]);
-           		var maxid = Math.max.apply(Math, cue_ids);
-*/           	          
-           	local.parameters.countOfCues.set(args[0]);
-           	local.values.cueNames.test.set(cue_ids[2]);
 
-//Selected Cue Infos           	
+// Main Playlist Cues >>>>>>>>>>>>>>>>>>>>		
+		if (address == '/mix16showcue/cue') {		  
+			local.parameters.countOfCues.set(args[0]);
+           	local.values.cueNames.countOfCues.set(args[0]);
+			cueNumb = local.values.cueNames.countOfCues.get() ;
+			cue_ids.push(args[0]);
+			maxid = cue_ids[cue_ids.length-1];
+		
+	//  insert Cue numbers and Names  
+		for (n=1 ; n<=cueNumb ; n++) {
+			if (args[0]==n){
+			no = args[1] ;
+			name = args[2] ; 
+			full = no+" : "+name ;
+			cue = "cue"+n ;
+			local.values.cueNames.getChild("cue"+n).set(full);} }               		            	
+         	          
+	//Selected Cue Infos           	
            	selCue = local.values.cueInfos.cueNumber.get() ;
-           if (args[1]==selCue){
+        if (args[1]==selCue){
            	vol=Math.round(args[3]);
            	local.values.cueInfos.cueName.set(args[2]);
            	local.values.cueInfos.cueStatus.set(args[4]);
            	local.values.cueInfos.cueVolume.set(vol);
-           	local.values.cueInfos.notes.set(args[5]);
-           	}
-           	
-           	}
-           	
+           	local.values.cueInfos.notes.set(args[5]); 	} 	}
+
+// Sidebar Cues >>>>>>>>>>>>>>>>>>>>>>           	
+    	if (address == '/mix16showcue/sidebarcue') {
+        	local.values.sidebarCues.countOfSBCues.set(args[0]);  		
+			sbNumb = local.values.sidebarCues.countOfSBCues.get() ;
+			
+	//  insert SB-Cue Names  
+		for (n=1 ; n<=sbNumb ; n++) {
+			if (args[0]==n){
+			cue = "cue"+n ;
+			local.values.sidebarCues.getChild("SBCue"+n).set(args[1]);}
+		
+		} }
            	
 }
 
@@ -153,6 +180,22 @@ function play_cue(val) {
 
 function reset() {
 	local.send("/mix16apps/reset/playstatus", 1);	
+}
+
+function pause_cue(val) {
+	local.send("/mix16showcue/pausecue", val);	
+}
+
+function stop_cue(val) {
+	local.send("/mix16showcue/stopcue", val);	
+}
+
+function play_SBcue(val) {
+	local.send("/mix16showcue/playsidebarcue", val);	
+}
+
+function stop_SBcue(val) {
+	local.send("/mix16showcue/stopsidebarcue", val);	
 }
 
 
